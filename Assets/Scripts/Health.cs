@@ -15,8 +15,8 @@ namespace SteamK12.FpsProject
 
             if (health <= 0)
             {
-                Instantiate(deathPrefab, transform.position, transform.rotation);
-                Destroy(gameObject);
+                if (deathPrefab != null) Instantiate(deathPrefab, transform.position, transform.rotation);
+                GameManager.Instance.GameLost();
             }
         }
     }

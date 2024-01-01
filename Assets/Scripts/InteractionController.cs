@@ -28,7 +28,7 @@ namespace SteamK12.FpsProject
 
                 if (interactable != null)
                 {
-                    interactable.Interact();
+                    interactable.Interact(transform);
                 }
             }
         }

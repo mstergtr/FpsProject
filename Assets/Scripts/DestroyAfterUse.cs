@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyAfterUse : MonoBehaviour
+namespace SteamK12.FpsProject
 {
-    public float lifeTime = 1.0f;
-    void Start()
+    public class DestroyAfterUse : MonoBehaviour
     {
-        Destroy(gameObject, lifeTime);
+        public float lifeTime = 1.0f;
+        void Start()
+        {
+            Destroy(gameObject, lifeTime);
+        }
     }
 }

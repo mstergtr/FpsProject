@@ -12,7 +12,7 @@ namespace SteamK12.FpsProject
 
         public bool isClosed = true;
 
-        public void Interact()
+        public void Interact(Transform playerTransform)
         {
             if (isClosed)
             {
