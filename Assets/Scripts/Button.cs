@@ -7,6 +7,7 @@ namespace SteamK12.FpsProject
     public class Button : MonoBehaviour, IInteractable
     {
         public UnityEvent onPressed;
+        public UnityEvent onReset;
         public LeantweenCustomAnimator pressedAnimation;
         public float cooldownTime = 2f;
         private float cooldownTimer = 0f;
@@ -39,6 +40,7 @@ namespace SteamK12.FpsProject
         private void ResetButton()
         {
             isPressed = false;
+            onReset.Invoke();
         }
 
         private void OnCollisionEnter(Collision collision)

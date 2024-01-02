@@ -4,14 +4,22 @@ namespace SteamK12.FpsProject
 {
     public class Enemy : MonoBehaviour, IDamageable
     {
+        public EnemyAI enemyAI;
         public float attackRange = 4.0f;
+        public float detectionRange = 10.0f;
         public float verticalOffset = 1.0f;
         public int damage = 1;
         public float timeBetweenAttacks = 1.0f;
-        public int health = 3;
+        public int maxHealth = 3;
         public GameObject deathPrefab;
         private float attackTimer = 0;
         private float distanceToPlayer;
+        private int currentHealth;
+
+        private void Start()
+        {
+            currentHealth = maxHealth;
+        }
 
         void Update()
         {
@@ -19,9 +27,17 @@ namespace SteamK12.FpsProject
 
             distanceToPlayer = Vector3.Distance(transform.position, GameManager.Instance.PlayerTransform.position);
 
-            if (distanceToPlayer <= attackRange && attackTimer > timeBetweenAttacks)
+            if (distanceToPlayer <= detectionRange || currentHealth < maxHealth)
+            {
+                enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
+            }
+            else if (distanceToPlayer <= attackRange && attackTimer > timeBetweenAttacks)
             {
                 Attack();
+            }
+            else
+            {
+                enemyAI.currentState = EnemyAI.EnemyState.Patrol;
             }
 
             attackTimer += Time.deltaTime;
@@ -45,12 +61,11 @@ namespace SteamK12.FpsProject
             }           
         }
 
-
         public void TakeDamage(int damage)
         {
-            health -= damage;
+            currentHealth -= damage;
 
-            if (health <= 0)
+            if (currentHealth <= 0)
             {
                 if (deathPrefab != null) Instantiate(deathPrefab, transform.position, transform.rotation);
                 Destroy(gameObject);

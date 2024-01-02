@@ -325,7 +325,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5408841400284924862}
-  m_LocalRotation: {x: -0, y: 0.93966734, z: -0, w: 0.34208962}
+  m_LocalRotation: {x: 0, y: 0.9396688, z: 0, w: 0.34208575}
   m_LocalPosition: {x: -1.78, y: 1, z: 14.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -386,6 +386,7 @@ MonoBehaviour:
   muzzleVFX: {fileID: 5318845230177814633}
   hitVFX: {fileID: 4245090439241100675, guid: 06c2991d5b977cf419af5d0ece1685f5, type: 3}
   ammo: 30
+  ammoText: {fileID: 0}
   reloadTime: 2
   shootSource: {fileID: 5408841399952278491}
   reloadSource: {fileID: 5408841401338535942}
@@ -537,7 +538,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42ef4a9f201f2347b8942e1ea6142b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  maxHealth: 10
+  healthSlider: {fileID: 0}
   deathPrefab: {fileID: 0}
 --- !u!1 &5408841400656142465
 GameObject:

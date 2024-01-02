@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace SteamK12.FpsProject
 {
@@ -11,18 +12,25 @@ namespace SteamK12.FpsProject
         public ParticleSystem muzzleVFX;
         public GameObject hitVFX;
         public int ammo = 30;
+        public TextMeshProUGUI ammoText;
         public float reloadTime = 2f;
         public AudioSource shootSource;
         public AudioSource reloadSource;
         public AudioClip[] shootSounds;
         public AudioClip reloadSound;
 
+        private int currentAmmo;
         private bool isReloading = false;
         private float reloadTimer = 0f;
 
+        private void Start()
+        {
+            currentAmmo = ammo;
+            ammoText.text = "Ammo: " + currentAmmo;
+        }
         void Update()
         {
-            if (Input.GetButtonDown("Fire1") && ammo > 0 && !isReloading)
+            if (Input.GetButtonDown("Fire1") && currentAmmo > 0 && !isReloading)
             {
                 Shoot();
             }
@@ -40,7 +48,8 @@ namespace SteamK12.FpsProject
                 if (reloadTimer <= 0f)
                 {
                     // Reset ammo and reloading state when the timer reaches 0
-                    ammo = 30; // Set your max ammo count here
+                    currentAmmo = ammo;
+                    ammoText.text = "Ammo: " + currentAmmo;
                     isReloading = false;
                 }
             }
@@ -48,7 +57,8 @@ namespace SteamK12.FpsProject
 
         void Shoot()
         {
-            ammo--;
+            currentAmmo--;
+            ammoText.text = "Ammo: " + currentAmmo;
 
             shootSource.PlayOneShot(shootSounds[Random.Range(0, shootSounds.Length)]);
 
@@ -71,7 +81,7 @@ namespace SteamK12.FpsProject
 
         void Reload()
         {
-            isReloading = true;
+            isReloading = true;           
             reloadTimer = reloadTime;
 
             reloadSource.PlayOneShot(reloadSound);
