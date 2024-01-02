@@ -31,13 +31,14 @@ namespace SteamK12.FpsProject
             {
                 enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
             }
-            else if (distanceToPlayer <= attackRange && attackTimer > timeBetweenAttacks)
-            {
-                Attack();
-            }
             else
             {
                 enemyAI.currentState = EnemyAI.EnemyState.Patrol;
+            }
+
+            if (distanceToPlayer <= attackRange && attackTimer > timeBetweenAttacks)
+            {
+                Attack();
             }
 
             attackTimer += Time.deltaTime;
