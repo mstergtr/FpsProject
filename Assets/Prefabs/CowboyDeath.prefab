@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1005826119952461977}
   - component: {fileID: 1005826119952461958}
   - component: {fileID: 6379701435899946773}
+  - component: {fileID: 8710480212385841877}
   m_Layer: 0
   m_Name: CowboyDeath
   m_TagString: Untagged
@@ -130,6 +131,20 @@ CapsuleCollider:
   m_Height: 0.84
   m_Direction: 1
   m_Center: {x: 0, y: 1.570838, z: 0.026983708}
+--- !u!114 &8710480212385841877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982229807693186718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4bbae04c1b241f45a3db6d5c64936e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1005826119952461977}
+  force: 5
 --- !u!1 &7383862487272987266
 GameObject:
   m_ObjectHideFlags: 0

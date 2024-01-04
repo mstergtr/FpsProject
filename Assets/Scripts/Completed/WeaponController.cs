@@ -11,17 +11,20 @@ namespace SteamK12.FpsProject
         public Transform cam;
         public ParticleSystem muzzleVFX;
         public GameObject hitVFX;
-        public int ammo = 30;
+        public int ammo = 10;
+        public float timeBetweenShots = 0.15f;
         public TextMeshProUGUI ammoText;
         public float reloadTime = 2f;
         public AudioSource shootSource;
         public AudioSource reloadSource;
         public AudioClip[] shootSounds;
         public AudioClip reloadSound;
+        public Animator pistolAnimator;
 
         private int currentAmmo;
         private bool isReloading = false;
-        private float reloadTimer = 0f;
+        private float reloadTimer;
+        private float shotTimer;
 
         private void Start()
         {
@@ -30,9 +33,16 @@ namespace SteamK12.FpsProject
         }
         void Update()
         {
-            if (Input.GetButtonDown("Fire1") && currentAmmo > 0 && !isReloading)
+            shotTimer += Time.deltaTime;
+
+            if (Input.GetButtonDown("Fire1") && currentAmmo > 0 && !isReloading && shotTimer > timeBetweenShots)
             {
                 Shoot();
+                pistolAnimator.SetBool("isShooting", true);
+            }
+            else
+            {
+                pistolAnimator.SetBool("isShooting", false);
             }
 
             if (Input.GetKeyDown(KeyCode.R) && !isReloading)
@@ -51,17 +61,17 @@ namespace SteamK12.FpsProject
                     currentAmmo = ammo;
                     ammoText.text = "Ammo: " + currentAmmo;
                     isReloading = false;
+                    pistolAnimator.SetBool("isReloading", false);
                 }
             }
         }
 
         void Shoot()
         {
-            currentAmmo--;
+            currentAmmo--;            
             ammoText.text = "Ammo: " + currentAmmo;
-
+            
             shootSource.PlayOneShot(shootSounds[Random.Range(0, shootSounds.Length)]);
-
             muzzleVFX.Play();
 
             // Raycast to detect hits
@@ -77,12 +87,15 @@ namespace SteamK12.FpsProject
                 // Instantiate hit VFX at the hit point
                 Instantiate(hitVFX, hit.point, Quaternion.LookRotation(hit.normal));
             }
+
+            shotTimer = 0f;
         }
 
         void Reload()
         {
             isReloading = true;           
             reloadTimer = reloadTime;
+            pistolAnimator.SetBool("isReloading", true);
 
             reloadSource.PlayOneShot(reloadSound);
         }
