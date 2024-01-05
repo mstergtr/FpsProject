@@ -30,7 +30,7 @@ namespace SteamK12.FpsProject
         private Vector3 currentMovement = Vector3.zero;
         private float footstepTimer;
         private float currentStepInterval;
-
+        private bool isClimbingLadder;
 
         void Start()
         {
@@ -61,7 +61,14 @@ namespace SteamK12.FpsProject
             currentMovement.x = horizontalMovement.x;
             currentMovement.z = horizontalMovement.z;
 
-            controller.Move(currentMovement * Time.deltaTime);
+            if (isClimbingLadder)
+            {
+                HandleLadderClimbing();
+            }
+            else
+            {
+                HandleNormalMovement();
+            }
         }
 
         private void HandleJumping()
@@ -90,6 +97,35 @@ namespace SteamK12.FpsProject
             verticalRotation = Mathf.Clamp(verticalRotation, -yClamp, yClamp);
 
             mainCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+        }
+
+        void HandleLadderClimbing()
+        {
+            float verticalSpeed = Input.GetAxis("Vertical") * walkSpeed;
+            currentMovement.y = verticalSpeed;
+            controller.Move(currentMovement * Time.deltaTime);
+        }
+
+        void HandleNormalMovement()
+        {
+            currentMovement.y -= gravity * Time.deltaTime;
+            controller.Move(currentMovement * Time.deltaTime);
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Ladder"))
+            {
+                isClimbingLadder = true;
+            }
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Ladder"))
+            {
+                isClimbingLadder = false;
+            }
         }
 
         void HandleFootsteps()
