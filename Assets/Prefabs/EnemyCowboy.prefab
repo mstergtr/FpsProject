@@ -99,11 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b72bd36ce1c9b4e9b06a3c2628fa60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAI: {fileID: 8847468949314982509}
   attackRange: 4
+  detectionRange: 10
   verticalOffset: 1
   damage: 1
   timeBetweenAttacks: 1
-  health: 3
+  maxHealth: 3
   deathPrefab: {fileID: 982229807693186718, guid: 6a3a9609b6ce9cb4f8781350089c1263, type: 3}
 --- !u!136 &8847468949314982507
 CapsuleCollider:
@@ -153,4 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be06a62842ca0947873a58019f34939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   navMeshAgent: {fileID: 8847468949314982508}
+  waypoints: []

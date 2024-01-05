@@ -15,7 +15,7 @@ namespace SteamK12.FpsProject
         {
             if (GameManager.Instance.PlayerTransform == null) return;
 
-            if (currentState == EnemyState.FollowPlayer) FollowPlayer();
+            if (currentState == EnemyState.FollowPlayer || waypoints.Length < 1) FollowPlayer();
             else if (currentState == EnemyState.Patrol) Patrol();
             else currentState = EnemyState.None;
         }
