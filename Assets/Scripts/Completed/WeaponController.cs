@@ -20,6 +20,10 @@ namespace SteamK12.FpsProject
         public AudioClip[] shootSounds;
         public AudioClip reloadSound;
         public Animator pistolAnimator;
+        public GameObject grenadePrefab;
+        public Transform grenadeLaunchPoint;
+        public int grenadeCount = 3;
+        public float throwForce = 10.0f;
 
         private int currentAmmo;
         private bool isReloading = false;
@@ -63,6 +67,14 @@ namespace SteamK12.FpsProject
                     isReloading = false;
                     pistolAnimator.SetBool("isReloading", false);
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.G) && grenadeCount > 0)
+            {
+                GameObject grenade = Instantiate(grenadePrefab, grenadeLaunchPoint.position, grenadeLaunchPoint.rotation);
+                Rigidbody rb = grenade.GetComponent<Rigidbody>();
+                rb.AddForce(cam.forward * throwForce, ForceMode.Impulse);
+                grenadeCount--;
             }
         }
 
