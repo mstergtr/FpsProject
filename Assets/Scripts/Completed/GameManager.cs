@@ -6,7 +6,7 @@ namespace SteamK12.FpsProject
     {
         public static GameManager Instance;
         public Transform PlayerTransform;
-        public FirstPersonController movementController;
+        public MovementController movementController;
         public WeaponController weaponController;
         public CanvasGroup canvasGroupWin;
         public CanvasGroup canvasGroupLose;

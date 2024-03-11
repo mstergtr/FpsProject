@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca069e4dff09f344ab53652bfdbe02a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blastRadius: 10
+  blastRadius: 5
   expForce: 100
   damage: 100
   expPrefab: {fileID: 1828176872806910, guid: be9d496392764e4418cf3178fad0df10, type: 3}

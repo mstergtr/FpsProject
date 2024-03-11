@@ -8,7 +8,7 @@ public class SimpleTrigger : MonoBehaviour
     {
         if (other.CompareTag(triggerTag))
         {
-            onTriggerEnter.Invoke();
+            onTriggerEnter.Invoke();    
         }
     }
 }

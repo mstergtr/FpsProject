@@ -41,8 +41,7 @@ namespace SteamK12.FpsProject
                     Instantiate(enemy, spawnPoints[i].position, spawnPoints[i].rotation);
                     spawns++;
                 }
-            }
-            
+            }          
         }
     }
 }

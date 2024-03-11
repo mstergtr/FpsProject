@@ -1,37 +1,83 @@
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace SteamK12.FpsProject
 {
     public class Crate : MonoBehaviour, IInteractable
     {
-        private bool isSnapped = false;
-        private Vector3 originalPosition;
-        private float distanceFromPlayer = 2f;
-        private Rigidbody crateRigidbody;
+        public int health = 3;
+        public GameObject deathPrefab;
+        public bool isExplosive = false;
+        public int expDamage = 10;
+        public float expRadius = 4.0f;
+        public Collider hitbox;
 
-        void Start()
+        bool isSnapped;
+        float distFromPlayer = 2.0f;
+        Rigidbody rb;
+
+        private void Start() 
         {
-            originalPosition = transform.position;
-            crateRigidbody = GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody>();
         }
 
-        public void Interact(Transform playerTransform)
+        public void TakeDamage(int damage)
+        {
+            if (!isExplosive) return;
+            
+            health -= damage;
+
+            if (health < 1)
+            {          
+                hitbox.enabled = false; //important for not creating infinite loop
+                Explode();          
+            }
+        }
+
+        public void Explode()
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, expRadius);
+
+            foreach (var nearbyObject in colliders)
+            {
+                IDamageable damageable = nearbyObject.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(expDamage);
+                }
+            }
+            Instantiate(deathPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+
+        public void Interact(Transform player)
         {
             if (isSnapped)
             {
-                // Unparent the crate and drop it
                 transform.parent = null;
-                crateRigidbody.isKinematic = false; // Allow physics to take over
+                rb.isKinematic = false;
                 isSnapped = false;
             }
             else
             {
-                // Snap the crate in front of the player
-                transform.position = playerTransform.position + playerTransform.forward * distanceFromPlayer;
-                transform.parent = playerTransform; // Parent the crate to the player
-                crateRigidbody.isKinematic = true; // Make it kinematic while snapped
+                transform.position = player.position + player.forward * distFromPlayer;
+                transform.parent = player;
+                rb.isKinematic = true;
                 isSnapped = true;
-            }
+            }       
         }
+
+        #if UNITY_EDITOR
+        // Draw the blast radius gizmo in the Unity Editor
+        void OnDrawGizmos()
+        {
+            Handles.color = new Color(1f, 0.5f, 0f, 0.2f); // Set color with transparency
+            Handles.DrawSolidDisc(transform.position, Vector3.up, expRadius);
+            Handles.color = Color.yellow;
+            Handles.DrawWireDisc(transform.position, Vector3.up, expRadius);
+        }
+        #endif
     }
 }
