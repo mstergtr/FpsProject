@@ -14,6 +14,7 @@ namespace SteamK12.FpsProject
         public int ammo = 10;
         public float timeBetweenShots = 0.15f;
         public TextMeshProUGUI ammoText;
+        public TextMeshProUGUI grenadeText;
         public float reloadTime = 2f;
         public AudioSource shootSource;
         public AudioSource reloadSource;
@@ -26,6 +27,7 @@ namespace SteamK12.FpsProject
         public float throwForce = 10.0f;
 
         private int currentAmmo;
+        private int currentGrenadeAmmo;
         private bool isReloading = false;
         private float reloadTimer;
         private float shotTimer;
@@ -34,6 +36,9 @@ namespace SteamK12.FpsProject
         {
             currentAmmo = ammo;
             ammoText.text = "Ammo: " + currentAmmo;
+            
+            currentGrenadeAmmo = grenadeCount;
+            grenadeText.text = "" + grenadeCount;
         }
         void Update()
         {
@@ -75,6 +80,8 @@ namespace SteamK12.FpsProject
                 Rigidbody rb = grenade.GetComponent<Rigidbody>();
                 rb.AddForce(cam.forward * throwForce, ForceMode.Impulse);
                 grenadeCount--;
+                currentGrenadeAmmo = grenadeCount;
+                grenadeText.text = "" + currentGrenadeAmmo;
             }
         }
 

@@ -115,6 +115,7 @@ MonoBehaviour:
   closeAnimation: {fileID: 6005885554078103130}
   openAnimation: {fileID: 6005885554078103131}
   isClosed: 0
+  canInteract: 1
 --- !u!114 &6005885554078103130
 MonoBehaviour:
   m_ObjectHideFlags: 0

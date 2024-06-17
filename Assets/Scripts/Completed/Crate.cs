@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace SteamK12.FpsProject
 {
-    public class Crate : MonoBehaviour, IInteractable
+    public class Crate : MonoBehaviour, IInteractable, IDamageable
     {
         public int health = 3;
         public GameObject deathPrefab;

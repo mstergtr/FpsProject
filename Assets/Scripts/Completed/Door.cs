@@ -11,9 +11,12 @@ namespace SteamK12.FpsProject
         public LeantweenCustomAnimator openAnimation;
 
         public bool isClosed = true;
+        public bool canInteract = true;
 
         public void Interact(Transform playerTransform)
         {
+            if (!canInteract) return;
+            
             if (isClosed)
             {
                 openAnimation.PlayAnimation();
@@ -24,6 +27,20 @@ namespace SteamK12.FpsProject
                 closeAnimation.PlayAnimation();
                 isClosed = true;
             }
+        }
+
+        public void Open()
+        {
+            if(!isClosed) return;
+            openAnimation.PlayAnimation();
+            isClosed = false;
+        }
+
+        public void Close()
+        {
+            if (isClosed) return;
+            closeAnimation.PlayAnimation();
+            isClosed = true;
         }
     }
 }

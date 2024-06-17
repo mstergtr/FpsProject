@@ -252,6 +252,7 @@ MonoBehaviour:
   ammo: 15
   timeBetweenShots: 0.15
   ammoText: {fileID: 0}
+  grenadeText: {fileID: 0}
   reloadTime: 2
   shootSource: {fileID: 5408841399952278491}
   reloadSource: {fileID: 5408841401338535942}
