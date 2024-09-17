@@ -14,6 +14,7 @@ namespace SteamK12.FpsProject
         public float fadeDuration = 1.0f;
         private bool playerWon;
         private bool playerLose;
+        private bool isGameOver;
         private float timer;
 
         void Start()
@@ -49,20 +50,24 @@ namespace SteamK12.FpsProject
 
         public void GameLost()
         {
+            if (isGameOver) return;
             playerLose = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
             movementController.enabled = false;
             weaponController.enabled = false;
+            isGameOver = true;
         }
 
         public void GameWon()
         {
+            if (isGameOver) return;
             playerWon = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
             movementController.enabled = false;
             weaponController.enabled = false;
+            isGameOver = true;
         }
     }
 }
