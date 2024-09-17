@@ -15,6 +15,7 @@ namespace SteamK12.FpsProject
         private float attackTimer = 0;
         private float distanceToPlayer;
         private int currentHealth;
+        private bool isAlive = true;
 
         private void Start()
         {
@@ -67,8 +68,12 @@ namespace SteamK12.FpsProject
             currentHealth -= damage;
 
             if (currentHealth <= 0)
-            {
-                if (deathPrefab != null) Instantiate(deathPrefab, transform.position, transform.rotation);
+            {              
+                if (isAlive && deathPrefab != null)
+                {
+                    Instantiate(deathPrefab, transform.position, transform.rotation);
+                }
+                isAlive = false;
                 Destroy(gameObject);
             }
         }

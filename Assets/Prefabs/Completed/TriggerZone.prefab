@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7815037100177630319}
   - component: {fileID: 7815037100177630316}
   m_Layer: 0
-  m_Name: WinZone
+  m_Name: TriggerZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
