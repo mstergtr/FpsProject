@@ -7,7 +7,7 @@ namespace SteamK12.FpsProject
         public EnemyAI enemyAI;
         public float attackRange = 4.0f;
         public float detectionRange = 10.0f;
-        public float verticalOffset = 1.0f;
+        //public float verticalOffset = 1.0f;
         public int damage = 1;
         public float timeBetweenAttacks = 1.0f;
         public int maxHealth = 3;
@@ -27,10 +27,21 @@ namespace SteamK12.FpsProject
             if (GameManager.Instance.PlayerTransform == null) return;
 
             distanceToPlayer = Vector3.Distance(transform.position, GameManager.Instance.PlayerTransform.position);
-
+            
             if (distanceToPlayer <= detectionRange || currentHealth < maxHealth)
             {
-                enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
+                Vector3 directionToPlayer = GameManager.Instance.PlayerTransform.position - transform.position;
+                directionToPlayer.y = 0f; // Ensure the ray is cast along the horizontal plane
+
+                if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized, out RaycastHit hit, 100.0f))
+                {
+                    Debug.DrawRay(transform.position + Vector3.up, directionToPlayer.normalized * attackRange, Color.green, 1.0f);
+
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
+                    }
+                }             
             }
             else
             {
@@ -50,9 +61,9 @@ namespace SteamK12.FpsProject
             Vector3 directionToPlayer = GameManager.Instance.PlayerTransform.position - transform.position;
             directionToPlayer.y = 0f; // Ensure the ray is cast along the horizontal plane
 
-            if (Physics.Raycast(transform.position + Vector3.up * verticalOffset, directionToPlayer.normalized, out RaycastHit hit, attackRange))
+            if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized, out RaycastHit hit, attackRange))
             {
-                Debug.DrawRay(transform.position + Vector3.up * verticalOffset, directionToPlayer.normalized * attackRange, Color.red, 1.0f);
+                Debug.DrawRay(transform.position + Vector3.up, directionToPlayer.normalized * attackRange, Color.red, 1.0f);
 
                 IDamageable damageable = hit.collider.GetComponent<IDamageable>();
                 if (damageable != null && hit.transform.CompareTag("Player"))
