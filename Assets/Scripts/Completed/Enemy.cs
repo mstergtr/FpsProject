@@ -7,12 +7,13 @@ namespace SteamK12.FpsProject
         public EnemyAI enemyAI;
         public float attackRange = 4.0f;
         public float detectionRange = 10.0f;
-        //public float verticalOffset = 1.0f;
+        public float chaseTime = 3.0f;
         public int damage = 1;
         public float timeBetweenAttacks = 1.0f;
         public int maxHealth = 3;
         public GameObject deathPrefab;
-        private float attackTimer = 0;
+        private float attackTimer;
+        private float chaseTimer;
         private float distanceToPlayer;
         private int currentHealth;
         private bool isAlive = true;
@@ -24,35 +25,65 @@ namespace SteamK12.FpsProject
 
         void Update()
         {
-            if (GameManager.Instance.PlayerTransform == null) return;
-
             distanceToPlayer = Vector3.Distance(transform.position, GameManager.Instance.PlayerTransform.position);
-            
-            if (distanceToPlayer <= detectionRange || currentHealth < maxHealth)
+
+            bool playerInDetectionRange = distanceToPlayer < detectionRange;
+            bool playerInView = false;
+
+            // Check if the player is visible once in range
+            if (playerInDetectionRange)
             {
                 Vector3 directionToPlayer = GameManager.Instance.PlayerTransform.position - transform.position;
                 directionToPlayer.y = 0f; // Ensure the ray is cast along the horizontal plane
 
-                if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized, out RaycastHit hit, 100.0f))
+                if (Physics.Raycast(transform.position + Vector3.up, directionToPlayer.normalized, out RaycastHit hit, detectionRange))
                 {
-                    Debug.DrawRay(transform.position + Vector3.up, directionToPlayer.normalized * attackRange, Color.green, 1.0f);
-
                     if (hit.collider.CompareTag("Player"))
                     {
-                        enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
+                        playerInView = true; // Player is in view
                     }
-                }             
+                }
+            }
+
+            // Transition logic
+            if (currentHealth < maxHealth)
+            {
+                // If damaged, always follow the player
+                enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
+                chaseTimer = 0; // Reset chase timer when damaged
+            }
+            else if (playerInView)
+            {
+                // If player is in view, start following
+                enemyAI.currentState = EnemyAI.EnemyState.FollowPlayer;
+                chaseTimer = 0; // Reset chase timer when player is in view
+            }
+            else if (enemyAI.currentState == EnemyAI.EnemyState.FollowPlayer)
+            {
+                // If following but the player is not in view, start the chase timer
+                chaseTimer += Time.deltaTime;
+
+                if (chaseTimer >= chaseTime)
+                {
+                    // Return to patrol if the player is not in view and chase timer expires
+                    enemyAI.currentState = EnemyAI.EnemyState.Patrol;
+                    chaseTimer = 0; // Reset chase timer when returning to patrol
+                }
             }
             else
             {
+                // Default to patrol state
                 enemyAI.currentState = EnemyAI.EnemyState.Patrol;
+                chaseTimer = 0; // Ensure chase timer is reset in patrol state
             }
 
-            if (distanceToPlayer <= attackRange && attackTimer > timeBetweenAttacks)
+            // Attack logic
+            if (distanceToPlayer <= attackRange && attackTimer >= timeBetweenAttacks)
             {
                 Attack();
             }
 
+            // Increment attack timer
             attackTimer += Time.deltaTime;
         }
 

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8844984276336269518}
   - component: {fileID: 8833211304809960266}
   - component: {fileID: 8847468949314982511}
+  - component: {fileID: 8847468949314982509}
   - component: {fileID: 8847468949314982507}
   - component: {fileID: 8847468949314982508}
-  - component: {fileID: 8847468949314982509}
   m_Layer: 7
   m_Name: EnemyCowboy
   m_TagString: Untagged
@@ -29,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8845390352423626060}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.8597326, y: 0.068, z: 4.110818}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8844984276336269518
 MeshFilter:
@@ -102,11 +102,26 @@ MonoBehaviour:
   enemyAI: {fileID: 8847468949314982509}
   attackRange: 4
   detectionRange: 10
-  verticalOffset: 1
+  chaseTime: 3
   damage: 1
   timeBetweenAttacks: 1
   maxHealth: 3
   deathPrefab: {fileID: 982229807693186718, guid: 6a3a9609b6ce9cb4f8781350089c1263, type: 3}
+--- !u!114 &8847468949314982509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845390352423626060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be06a62842ca0947873a58019f34939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  navMeshAgent: {fileID: 8847468949314982508}
+  waypoints: []
 --- !u!136 &8847468949314982507
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -115,8 +130,17 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8845390352423626060}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.49
   m_Height: 1.97
   m_Direction: 1
@@ -143,18 +167,3 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8847468949314982509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8845390352423626060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2be06a62842ca0947873a58019f34939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  navMeshAgent: {fileID: 8847468949314982508}
-  waypoints: []
